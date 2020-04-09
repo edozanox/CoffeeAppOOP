@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace CoffeeAppOOP
 {
     class Program
-    {        
+    {   
+        
         public const string Accesso = "BENVENUTO!";
         public const string Errore = "ERROR: Voce selezionata inesistente!";
         public const string GuidaMenuUno = "Digita la voce desiderata: ";
@@ -20,9 +21,10 @@ namespace CoffeeAppOOP
 
         static void Main()
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             Caffetteria bar = new Caffetteria();
             //Prodotto acquisto = new Prodotto();
-            bool IsOK = false, AnotherTime = false;
+            bool AnotherTime, IsOK = false;
             double importo_totale;
             string selezione;
             int num;
@@ -63,14 +65,14 @@ namespace CoffeeAppOOP
 
                 switch (selezione)
                 {
-                    case "drink":
+                    case "DRINK":
                         foreach (var elem in ListaDrinks)
-                            Console.WriteLine(elem.NomeProdotto + " - " + elem.PrezzoUnita + " €");
+                            Console.WriteLine($"{elem.NomeProdotto } - {elem.PrezzoUnita} €");
 
                         do
                         {
                             Console.WriteLine("\n");
-                            Console.WriteLine(GuidaMenuProdotto);
+                            Console.Write(GuidaMenuProdotto);
                             selezione = Console.ReadLine();
 
                             foreach (var elem in ListaDrinks)
@@ -89,18 +91,16 @@ namespace CoffeeAppOOP
 
                         break;
 
-                    case "snack":
+                    case "SNACK":
 
                         foreach (var prod in ListaSnack)
                             Console.WriteLine(prod.NomeProdotto + " - " + prod.PrezzoUnita + " €");
-
-                        do
-                        {
+                                                
                             Console.WriteLine("\n");
-                            Console.WriteLine(GuidaMenuProdotto);
+                            Console.Write(GuidaMenuProdotto);
                             selezione = Console.ReadLine();
 
-                            foreach (var elem in ListaDrinks)
+                            foreach (var elem in ListaSnack)
                             {
                                 if (elem.NomeProdotto == selezione)
                                 {
@@ -109,13 +109,16 @@ namespace CoffeeAppOOP
                                     num = Int32.Parse(Console.ReadLine());
                                     Prodotto prodSel = new Prodotto(elem.NomeProdotto, elem.PrezzoUnita, num);
                                     bar.ProdottiSelezionati.Add(prodSel);
+                                    
                                 }
                             }
-                        } while (!IsOK);
+
+                        if (!IsOK)
+                            Console.WriteLine("PRODOTTO NON TROVATO");
 
                         break;
 
-                    case "caffetteria":
+                    case "CAFFETTERIA":
 
                         foreach (var prod in ListaBevandeCalde)
                             Console.WriteLine(prod.NomeProdotto + " - " + prod.PrezzoUnita + " €");
@@ -123,10 +126,10 @@ namespace CoffeeAppOOP
                         do
                         {
                             Console.WriteLine("\n");
-                            Console.WriteLine(GuidaMenuProdotto);
+                            Console.Write(GuidaMenuProdotto);
                             selezione = Console.ReadLine();
 
-                            foreach (var elem in ListaDrinks)
+                            foreach (var elem in ListaBevandeCalde)
                             {
                                 if (elem.NomeProdotto == selezione)
                                 {
@@ -147,10 +150,12 @@ namespace CoffeeAppOOP
                         break;
                 }
 
-                Console.WriteLine(GuidaAnotherTime);
+                Console.Write(GuidaAnotherTime);
                 selezione = Console.ReadLine();
                 if (selezione == "y" || selezione == "Y")
                     AnotherTime = true;
+                else
+                    AnotherTime = false;
 
             } while (AnotherTime);
 
@@ -166,6 +171,7 @@ namespace CoffeeAppOOP
             Console.WriteLine("TOT.........€" + importo_totale);
             Console.WriteLine("ARRIVEDERCI E GRAZIE!");
             Console.WriteLine("-----------------------------------");
+            Console.ReadLine();
 
         }
     }
